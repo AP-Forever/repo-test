@@ -1,14 +1,9 @@
-const originalFreeze = Object.freeze;
-Object.freeze = function (obj: any) {
-  if (Array.isArray(obj) && obj.length > 0 && typeof obj[0] === "number") {
-    console.trace("=== FREEZING NUMBER ARRAY ===", obj);
-  }
-  return originalFreeze.call(this, obj);
-};
-
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 3840], // or your custom values
-    // qualities: [75, 85, 90, 95]
+    deviceSizes: [408, 413, 429, 500, 502, 503, 504, 521, 522, 524], // match your real custom sizes
+    qualities: [75, 85, 90, 95], // uncomment if you use this
   },
 };
+
+module.exports = nextConfig;
