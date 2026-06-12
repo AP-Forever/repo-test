@@ -15,7 +15,7 @@ export default function Home({}: Props) {
         width={1200}
         height={800}
         priority
-        sizes="(max-width: 768px) 100vw, 50vw"
+        unoptimized // ← add this
       />
 
       {/* Multiple images to increase chance of hitting the code path */}
@@ -25,6 +25,7 @@ export default function Home({}: Props) {
         width={800}
         height={600}
         sizes="50vw"
+        unoptimized
       />
     </main>
   );
