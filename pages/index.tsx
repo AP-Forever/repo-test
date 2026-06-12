@@ -1,39 +1,30 @@
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import type { GetServerSideProps } from "next";
 
 export default function Home() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
     <main style={{ padding: "2rem" }}>
-      <h1>Image Freeze Bug Test</h1>
+      <h1>Image Freeze Test - SSR Heavy</h1>
 
-      {mounted && (
-        <>
-          <Image
-            src="https://picsum.photos/id/1015/1200/800"
-            alt="Test 1"
-            width={1200}
-            height={800}
-            priority
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-          <Image
-            src="https://picsum.photos/id/237/800/600"
-            alt="Test 2"
-            width={800}
-            height={600}
-            sizes="50vw"
-            quality={85}
-          />
-        </>
-      )}
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Image
+          key={i}
+          src={`https://picsum.photos/id/${100 + i}/1200/800`}
+          alt={`Test image ${i}`}
+          width={1200}
+          height={800}
+          priority={i === 0}
+          quality={85 + (i % 10)}
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
+      ))}
     </main>
   );
 }
 
-export const getServerSideProps = async () => ({ props: {} });
+// Force full SSR
+export const getServerSideProps: GetServerSideProps = async () => {
+  // Small delay to simulate real work
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  return { props: {} };
+};
